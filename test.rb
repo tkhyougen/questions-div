@@ -15,9 +15,13 @@ server = WEBrick::HTTPServer.new({
   Signal.trap(signal){ server.shutdown }
 }
 
-server.mount('/test', WEBrick::HTTPServlet::FileHandler, 'test.html')
+# WEBrick::HTTPServlet::FileHandlerをWEBrick::HTTPServlet::ERBHandlerに変更する
+# 'test.html'を'test.html.erb'に変更する
+server.mount('/test', WEBrick::HTTPServlet::ERBHandler, 'test.html.erb')
+server.mount('/kadai',WEBrick::HTTPServlet::ERBHandler,'kadai.html.erb')
 
 # この一行を追記
-server.mount('/indicate.cgi', WEBrick::HTTPServlet::CGIHandler, 'indicate.rb')
+server.mount('/goya.cgi', WEBrick::HTTPServlet::CGIHandler, 'goya.rb')
+server.mount('/goya2.cgi',WEBrick::HTTPServlet::CGIHandler, 'goya2.rb')
 
 server.start
